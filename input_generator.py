@@ -6,7 +6,7 @@ import system_constants as const
 
 class InputGenerator:
     @staticmethod
-    def generate_call_initiation_time():
+    def generate_call_interarrival_time():
         # exponential distribution
         inter_arrival = expon.rvs(const.CALL_INITIATION_DISTRIBUTION_LOC,
                                   const.CALL_INITIATION_DISTRIBUTION_SCALE, 1)[0]
@@ -27,7 +27,9 @@ class InputGenerator:
     @staticmethod
     def generate_car_speed():
         # normal distribution
-        return np.random.normal(const.CAR_SPEED_DISTRIBUTION_LOC, const.CAR_SPEED_DISTRIBUTION_SCALE, size=None)
+        # need to convert from km/h to m/s, dividing by 3.6
+        return np.random.normal(const.CAR_SPEED_DISTRIBUTION_LOC,
+                                const.CAR_SPEED_DISTRIBUTION_SCALE, size=None)/3.6
 
     @staticmethod
     def generate_direction():

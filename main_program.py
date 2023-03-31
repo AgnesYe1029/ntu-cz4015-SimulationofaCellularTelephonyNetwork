@@ -62,6 +62,7 @@ class MainProgram:
         next_car_direction = InputGenerator.generate_direction()
         next_call_init_event = CallInitiationEvent(next_call_init_time, next_car_speed, next_call_init_station,
                                                    next_call_init_position, next_call_duration, next_car_direction)
+        heappush(self.future_event_list, next_call_init_event)
 
         # process the current call event
         curr_station = event.current_station

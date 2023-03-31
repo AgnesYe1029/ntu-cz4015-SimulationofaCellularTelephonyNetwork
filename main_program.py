@@ -42,7 +42,27 @@ class MainProgram:
         while self.total_number_of_calls < 1000:
             event = heappop(self.future_event_list)
             self.clock = event.clock  # update the clock
-            # TODO: call event handler corresponding to the type of event
+            # event handling corresponding to the type of event
+            if isinstance(event, CallInitiationEvent):
+                self.handle_call_initiation(event)
+            elif isinstance(event, CallHandoverEvent):
+                self.handle_call_handover(event)
+            elif isinstance(event, CallTerminationEvent):
+                self.handle_call_termination(event)
+
+    def handle_call_initiation(self, event):
+        pass
+
+    def handle_call_termination(self, event):
+        # release the channel
+        self.available_channels[event.station] += 1
+
+        # update system stats
+        self.finished_calls += 1
+        self.time_of_the_last_event = event.clock
+
+    def handle_call_handover(self, event):
+        pass
 
 
 main = MainProgram()

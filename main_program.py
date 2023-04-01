@@ -32,12 +32,12 @@ class MainProgram:
     def start_simulation(self):
         self.initialize()
         # simulate calls
-        while self.finished_calls < 10000:
+        while self.finished_calls < 100000:
             event = heappop(self.future_event_list)[1]
-            print("======================")
-            print("time: ", event.time)
-            print("event: ", event)
-            print("channel avail: ", self.available_channels)
+            # print("======================")
+            # print("time: ", event.time)
+            # print("event: ", event)
+            # print("channel avail: ", self.available_channels)
             self.clock = event.time  # advance the clock
             # event handling corresponding to the type of event
             if isinstance(event, CallInitiationEvent):
@@ -46,25 +46,22 @@ class MainProgram:
                 self.handle_call_handover(event)
             elif isinstance(event, CallTerminationEvent):
                 self.handle_call_termination(event)
-            for x in range(20):
-                if self.available_channels[x] < 0:
-                    print("channel ", x, "not enough channels")
         print("======================")
         print("num_of_calls: ", self.total_number_of_calls)
+        print("finished_calls: ", self.finished_calls)
         print("blocked_calls: ", self.blocked_calls)
         print("dropped_calls: ", self.dropped_calls)
 
     def handle_call_initiation(self, event):
         # schedule next call event
         self.schedule_call_initiation_event()
+        # increment system stats
+        self.total_number_of_calls += 1
 
         # process the current call event
         curr_station = event.initiation_station
         if self.available_channels[curr_station] > 0:
             self.available_channels[curr_station] -= 1
-            # increment system stats
-            self.total_number_of_calls += 1
-
             time_stay_in_this_cell = (const.CELL_DIAMETER - event.initiation_position) / event.car_speed \
                 if event.car_direction == 1 else event.initiation_position / event.car_speed
 

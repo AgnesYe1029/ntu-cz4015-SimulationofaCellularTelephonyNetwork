@@ -1,3 +1,5 @@
+"""The main program for execution"""
+
 from input_generator import InputGenerator
 from event import *
 from heapq import heappush, heappop

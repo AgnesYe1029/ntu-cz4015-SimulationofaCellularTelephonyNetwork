@@ -105,5 +105,6 @@ class MainProgram:
         pass
 
 
-main = MainProgram()
-main.initialize()
+if __name__ == "__main__":
+    main = MainProgram()
+    main.initialize()

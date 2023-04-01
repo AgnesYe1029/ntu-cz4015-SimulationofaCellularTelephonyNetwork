@@ -41,3 +41,4 @@ class InputGenerator:
     def generate_initiation_position_in_cell():
         # this distance is measured from left to right
         return random.uniform(0, const.CELL_DIAMETER)
+

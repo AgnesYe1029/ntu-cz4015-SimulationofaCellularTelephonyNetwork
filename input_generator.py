@@ -20,8 +20,8 @@ class InputGenerator:
     @staticmethod
     def generate_call_duration():
         # exponential distribution
-        call_duration = expon.rvs(const.CALL_DURATION_DISTRIBUTION_LOC, const.CALL_DURATION_DISTRIBUTION_SCALE, size=1)[
-            0]
+        call_duration = expon.rvs(const.CALL_DURATION_DISTRIBUTION_LOC,
+                                  const.CALL_DURATION_DISTRIBUTION_SCALE, size=1)[0]
         return call_duration
 
     @staticmethod

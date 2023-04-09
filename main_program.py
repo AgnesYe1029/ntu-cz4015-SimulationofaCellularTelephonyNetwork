@@ -60,7 +60,7 @@ class MainProgram:
 
         # process the current call event
         curr_station = event.initiation_station
-        if self.available_channels[curr_station] > 0:
+        if self.available_channels[curr_station] > 1:
             self.available_channels[curr_station] -= 1
             time_stay_in_this_cell = (const.CELL_DIAMETER - event.initiation_position) / event.car_speed \
                 if event.car_direction == 1 else event.initiation_position / event.car_speed
@@ -69,14 +69,14 @@ class MainProgram:
                 self.schedule_termination_event(self.clock + event.call_duration, curr_station)
             else:  # the call ends after leaving the station, handover needed
                 next_station = curr_station + event.car_direction
+                leave_time = self.clock + time_stay_in_this_cell
                 if next_station < 0 or next_station > 19:
                     # the car is passing the ends of the highway
-                    self.schedule_termination_event(self.clock + time_stay_in_this_cell, curr_station)
+                    self.schedule_termination_event(leave_time, curr_station)
                 else:
-                    next_station = curr_station + event.car_direction
                     remaining_call_duration = event.call_duration - time_stay_in_this_cell
                     # schedule call_handover
-                    self.schedule_call_handover_event(self.clock + time_stay_in_this_cell,
+                    self.schedule_call_handover_event(leave_time,
                                                       event.car_speed, curr_station,
                                                       next_station, remaining_call_duration, event.car_direction)
         else:  # this call is blocked
@@ -109,12 +109,13 @@ class MainProgram:
             else:
                 # calculate the next station
                 next_station = curr_station + event.car_direction
+                leave_time = self.clock + time_stay_in_this_cell
                 if next_station < 0 or next_station > 19:
                     # across the ends of the highway, call terminated
-                    self.schedule_termination_event(self.clock + time_stay_in_this_cell, curr_station)
+                    self.schedule_termination_event(leave_time, curr_station)
                 else:
                     remaining_duration = event.remaining_duration - time_stay_in_this_cell
-                    self.schedule_call_handover_event(self.clock + time_stay_in_this_cell,
+                    self.schedule_call_handover_event(leave_time,
                                                       event.car_speed, curr_station, next_station,
                                                       remaining_duration, event.car_direction)
         else:

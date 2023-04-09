@@ -24,7 +24,8 @@ class CallTerminationEvent(Event):
 
 
 class CallHandoverEvent(Event):
-    def __init__(self, time, car_speed, prev_station, next_station, remaining_duration, car_direction) -> None:
+    def __init__(self, time, car_speed, prev_station,
+                 next_station, remaining_duration, car_direction) -> None:
         super().__init__(time)
         self.car_speed = car_speed
         self.prev_station = prev_station
